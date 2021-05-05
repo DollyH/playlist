@@ -10,11 +10,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class PlaylistRepository {
+public class SpotifyRepository {
 
     private final List<Playlist> playlists;
+    private final List<Song> songs;
 
-    public PlaylistRepository() {
+    public SpotifyRepository() {
         Song song1 = new Song(1, "Dynamite", Arrays.asList("Jin", "Suga", "RM", "J-Hope", "Jimin", "V", "Jungkook"), "Cheer");
         Song song2 = new Song(2, "Filter", Arrays.asList("Jimin"), "Fun");
         Song song3 = new Song(3, "Sweet Night", Arrays.asList("V"), "Soothing");
@@ -40,6 +41,13 @@ public class PlaylistRepository {
         playlists.add(slow);
         Playlist love = new Playlist(3, "Love", "Love", loveSongs);
         playlists.add(love);
+        songs = new ArrayList<>();
+        songs.add(song1);
+        songs.add(song2);
+        songs.add(song3);
+        songs.add(song4);
+        songs.add(song5);
+        songs.add(song6);
     }
 
     public Mono<Playlist> findPlaylistByName(String name) {
@@ -57,5 +65,13 @@ public class PlaylistRepository {
                 .filter(playlist -> playlist.getGenre().equalsIgnoreCase(genre))
                 .collect(Collectors.toList());
         return Flux.fromIterable(playlists);
+    }
+
+    public List<String> getAllPlaylists() {
+        return this.playlists.stream().map(Playlist::getName).collect(Collectors.toList());
+    }
+
+    public Flux<Song> getAllSongs() {
+        return Flux.fromIterable(songs);
     }
 }
