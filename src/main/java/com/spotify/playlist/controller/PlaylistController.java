@@ -32,7 +32,7 @@ public class PlaylistController {
     }
 
     @GetMapping("/all")
-    private List<String> getAllPlaylists() {
+    private Flux<String> getAllPlaylists() {
         return playlistService.getAllPlaylists();
     }
 }
